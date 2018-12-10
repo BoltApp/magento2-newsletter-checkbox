@@ -1,0 +1,66 @@
+<?php
+/**
+ * 
+ */
+ /* Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Checkout\Block\Cart\Shipping */ ?>
+<form class="form form-newsletter-manage" action="<?= $block->escapeUrl($block->getBaseUrl()) ?>newsopt/index/" method="post">
+        <fieldset class="fieldset" style="margin-bottom: 0px !important;display: inline-block;padding-right: 15px;">
+            <?= $block->getBlockHtml('formkey') ?>
+            <div class="field choice">
+                <input type="checkbox" name="is_subscribed2" id="subscription" value="1" title="<?= $block->escapeHtmlAttr(__('Sign Up for Our Newsletter')) ?>" class="checkbox">
+                <label for="subscription" class="label"><span><?= $block->escapeHtml(__('Sign Up for Our Newsletter')) ?></span></label>
+            </div>
+            <?php /* Extensions placeholder */ ?>
+            <?= $block->getChildHtml('customer.form.newsletter.extra') ?>
+        </fieldset>        
+</form>
+<style type="text/css">
+    button.newscustom {
+        border: 2px solid #AB3339 !important;
+        background-color: transparent !important;
+        color: #AB3339 !important;
+        padding: 14px 36px !important;
+    }
+</style>
+
+<!-- Adding Script for Checkbox Checked/Unchecked Events -->
+<script type="text/javascript">
+require(['jquery'], function($){
+    $(document).ready(function() {
+        $('#subscription').prop('checked', true);
+
+        $('div[data-tid="bolt-checkout-button"]').click(function(event) {
+        // $('#subscription').change(function() {
+            var customurl = "<?php echo $this->getUrl().'newsopt/index/index'?>";
+            if($("#subscription").prop("checked") == true){
+                var chk = 1;
+            }
+            else if($("#subscription").prop("checked") == false) {
+                var chk = 0;
+            }else{
+                var chk = 0;
+            }
+            $.ajax({
+                url: customurl,
+                type: 'POST',
+                data: {
+                    chk: chk,
+                },
+                success: function(response) {               
+                    console.log(response);   
+                },
+                error: function (xhr, status, errorThrown) {
+                    console.log('Error happens. Try again.');
+                }
+            });
+        });
+    });
+});
+</script> 
